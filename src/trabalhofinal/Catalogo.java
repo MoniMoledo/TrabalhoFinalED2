@@ -32,7 +32,7 @@ public class Catalogo {
 
     public void addAtributo(String tabela, String nome, String tipo, boolean ehChave) {
         Atributo at = new Atributo();
-        at.setTabela(tipo);
+        at.setTabela(tabela);
         at.setNome(nome);
         at.setTipo(tipo);
         at.setChave(ehChave);
@@ -45,8 +45,8 @@ public class Catalogo {
             //for para guardar no catalogo principal nome da tabela e nome do arquivo que serão guardadas as info dessa tabela("tabela"+j)
             for (int j = 0; j < nomeTabela.size(); j++) {
                 catalogo.writeUTF(nomeTabela.get(j));
-                catalogo.writeUTF("tabela" + j);
-                catalogTabela = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("tabela" + j, true)));
+                catalogo.writeUTF("tabela" + nomeTabela.get(j));
+                catalogTabela = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("tabela" + nomeTabela.get(j))));
 
                 //for para guardar no arquivo "tabela+j" os nomes dos atributos daquela tabela, tipo e se é chave primária.
                 for (int i = 0; i < atributos.size(); i++) {
@@ -57,6 +57,7 @@ public class Catalogo {
                     }
                 }
                 catalogTabela.writeUTF("fim_do_arquivo");
+                catalogTabela.close();
             }
         } finally {
             if (catalogTabela != null) {
@@ -78,11 +79,12 @@ public class Catalogo {
             while (true) {
                 nomeTabela = entrada.readUTF();
                 nomeArqTabela = entrada.readUTF();
-                System.out.println(nomeTabela + "/n");
-                System.out.println("Atributo ---------------- Tipo ----------------Chave Primária/n");
+                System.out.println(nomeTabela + "\n");
+                System.out.println("Atributo ---------- Tipo --------- Chave Primária\n");
                 arqAt = new DataInputStream(new BufferedInputStream(new FileInputStream(nomeArqTabela)));
                 do {
                     nomeAtributo = arqAt.readUTF();
+                    if(nomeAtributo.equals("fim_do_arquivo")) break;
                     tipoAtributo = arqAt.readUTF();
                     ehChave = arqAt.readBoolean();
                     if (ehChave) {
