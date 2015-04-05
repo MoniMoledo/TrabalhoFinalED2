@@ -6,6 +6,8 @@
 
 package trabalhofinal;
 
+import java.io.DataOutputStream;
+
 /**
  *
  * @author Monique
@@ -48,5 +50,4 @@ public class Atributo {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
 }
