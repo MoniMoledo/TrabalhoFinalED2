@@ -43,11 +43,13 @@ public class Interface {
                 System.out.println("Escolha uma das opções abaixo: ");
                 System.out.println("-------------------------------------");
                 System.out.println("1 - Adicionar uma tabela ao banco de dados");
-                System.out.println("2 - Adicionar registros a uma tabela");
-                System.out.println("3 - Consultar registros de uma tabela");
-                System.out.println("4 - Excluir registros de uma tabela");
-                System.out.println("5 - Modificar o valor de um registro de uma tabela");
-                System.out.println("6 - Fechar programa");
+                System.out.println("2 - Adicionar atributos a uma tabela");
+                System.out.println("3 - Consultar tabelas que existem no banco");
+                System.out.println("4 - Adicionar registros a uma tabela");
+                System.out.println("5 - Consultar registros de uma tabela");
+                System.out.println("6 - Excluir registros de uma tabela");
+                System.out.println("7 - Modificar o valor de um registro de uma tabela");
+                System.out.println("8 - Fechar programa");
                 System.out.println("-------------------------------------");
                 Catalogo catalogo = new Catalogo();
                 int opcao = 0;
@@ -103,7 +105,6 @@ public class Interface {
                                 tabela = teclado.nextLine();
                                 DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(NOME_CATALOGO)));
                                 catalogo.verificaTabela(dis, tabela);
-                                catalogo.le(dis);
                                 ok = true;
                                 dis.close();
                                 dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(tabela + ".dat", true)));
@@ -150,8 +151,10 @@ public class Interface {
                         catalogo.salvarAtributos(dos);
                         dos.close();
                         break;
-
-                    case 6:
+                    case 3: 
+                        DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(NOME_CATALOGO)));
+                        catalogo.le(dis);
+                    case 8:
                         System.exit(0);
                         break;
                     default:

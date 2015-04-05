@@ -110,7 +110,6 @@ public class Catalogo {
     }
 
     public void le(DataInputStream entrada) throws Exception {
-        String nomeArqTabela = "";
         String nomeTabela = "";
         String nomeAtributo = "";
         String tipoAtributo = "";
@@ -122,8 +121,8 @@ public class Catalogo {
             while (true) {
                 nomeTabela = entrada.readUTF();
                 System.out.println(nomeTabela + "\n");
-                System.out.println("Atributo ---------- Tipo --------- Chave Primária\n");
-                arqAt = new DataInputStream(new BufferedInputStream(new FileInputStream(nomeTabela)));
+               /* System.out.println("Atributo ---------- Tipo --------- Chave Primária\n");
+                arqAt = new DataInputStream(new BufferedInputStream(new FileInputStream(nomeTabela+".dat")));
                 do {
                     nomeAtributo = arqAt.readUTF();
                     if (nomeAtributo.equals("fim_do_arquivo")) {
@@ -138,6 +137,7 @@ public class Catalogo {
                     System.out.println(nomeAtributo + "            " + tipoAtributo + "             " + chave);
                 } while (!nomeAtributo.equals("fim_do_arquivo"));
                 System.out.println("_____________________________________________________________________________________________");
+            */           
             }
         } catch (EOFException e) {
             //arquivo terminou
