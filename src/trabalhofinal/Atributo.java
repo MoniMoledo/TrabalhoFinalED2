@@ -6,9 +6,11 @@
 
 package trabalhofinal;
 
+import java.io.DataOutputStream;
+
 /**
- *
- * @author Monique
+ * @author Carlos Daniel Ogg, Fernando da Rós, João Manoel, Jonatha Nunes,
+ * Monique Moledo
  */
 public class Atributo {
     
@@ -48,5 +50,4 @@ public class Atributo {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
 }
