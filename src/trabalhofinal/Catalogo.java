@@ -31,17 +31,16 @@ public class Catalogo {
     private List<Atributo> atributos = new ArrayList<>();
     //USAR HASHMAP!!!!!!!!!!
 
-    public void addTabela(String nome) {
+    public void addTabela(String nome) { //DESNECESSARIO POIS SÓ ADICIONAMOS 1 TABELA POR VEZ
         nomeTabela.add(nome);
     }
 
-    public void addAtributo(String tabela, String nome, String tipo, boolean ehChave) {
-        Atributo at = new Atributo();
-        at.setTabela(tabela);
-        at.setNome(nome);
-        at.setTipo(tipo);
-        at.setChave(ehChave);
-        atributos.add(at);
+    public void addAtributo(Atributo atr) {
+        if (atr.isChave()) {
+            atributos.add(0, atr);//SEMPRE SALVA A PK NA PRIMEIRA POSICAO
+        } else {
+            atributos.add(atr);
+        }
     }
 
     public void salva(DataOutputStream catalogo) throws Exception {
@@ -60,6 +59,22 @@ public class Catalogo {
     }
 
     public void salvarAtributos(DataOutputStream dos) throws IOException {
+        Atributo prox = new Atributo();
+        prox.setChave(false);
+        prox.setNome("proximo");
+        prox.setTabela(atributos.get(0).getTabela());
+        prox.setTipo("integer");
+        
+        Atributo flag = new Atributo();
+        flag.setChave(false);
+        flag.setNome("flag");
+        flag.setTabela(atributos.get(0).getTabela());
+        flag.setTipo("boolean");
+        
+        atributos.add(1,prox);
+        atributos.add(2,flag);
+        
+        dos.writeInt(atributos.size());
         for (int i = 0; i < atributos.size(); i++) {
             dos.writeUTF(atributos.get(i).getNome());
             dos.writeUTF(atributos.get(i).getTipo());
@@ -130,7 +145,6 @@ public class Catalogo {
 //            
 //        }
 //    }
-
     public String[] verificaConsistenciaTabela(String tabela, String[] nomes) {
         if (tabela.contains(" ")) {
             for (int i = 0; i < tabela.split(", ").length; i++) {
@@ -178,16 +192,14 @@ public class Catalogo {
         DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(tabela + ".dat")));
         return dis.available() == 0;
     }
-    
-   
-    
-    public boolean isNull(DataInputStream dis) throws IOException{
+
+    public boolean isNull(DataInputStream dis) throws IOException {
         return dis.readUTF() == " ";
     }
 
     public void verificaExistencia(String nome, String tabela) throws FileNotFoundException, IOException {
         DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(tabela + ".dat")));
-        dis.readUTF();
+        dis.readUTF();//dis.readInt();
         try {
             while (true) {
                 if (dis.readUTF().toLowerCase().equals(nome.toLowerCase())) {
@@ -202,20 +214,21 @@ public class Catalogo {
         dis.close();
     }
 
-    public void leTabela(DataInputStream dis) throws IOException{
+    public void leTabela(DataInputStream dis) throws IOException {
         dis.readUTF();
-        try{
-            while(true){
-                System.out.println("nome" + dis.readUTF());
-                System.out.println("tipo" + dis.readUTF());
-                System.out.println("chave primaria" + dis.readBoolean());
+        dis.readInt();
+        try {
+            while (true) {//if nomeAtributo !=flag ou proximo..
+                System.out.println("Nome Atributo: " + dis.readUTF());
+                System.out.println("Tipo Atributo: " + dis.readUTF());
+                System.out.println("Chave Primaria: " + dis.readBoolean());
                 System.out.println("-------------------------");
             }
-        }
-        catch(EOFException e){
-            
+        } catch (EOFException e) {
+
         }
     }
+
     public void le(DataInputStream entrada) throws Exception {
         String nomeArqTabela = "";
         String nomeTabela = "";
