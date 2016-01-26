@@ -7,20 +7,19 @@ package trabalhofinal;
 
 import excecoes.StringInvalidaException;
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+//import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+//import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- *
  * @author Carlos Daniel Ogg, Fernando da Rós, João Manoel, Jonatha Nunes,
  * Monique Moledo
  */
@@ -28,16 +27,15 @@ public class Catalogo {
 
     private List<String> nomeTabela = new ArrayList<>();
 
-    private List<Atributo> atributos = new ArrayList<>();
-    //USAR HASHMAP!!!!!!!!!!
+    List<Atributo> atributos = new ArrayList<>();
 
-    public void addTabela(String nome) { //DESNECESSARIO POIS SÓ ADICIONAMOS 1 TABELA POR VEZ
+    public void addTabela(String nome) {
         nomeTabela.add(nome);
     }
 
     public void addAtributo(Atributo atr) {
         if (atr.isChave()) {
-            atributos.add(0, atr);//SEMPRE SALVA A PK NA PRIMEIRA POSICAO
+            atributos.add(0, atr);  // Sempre salva a PK na primeira posição
         } else {
             atributos.add(atr);
         }
@@ -46,10 +44,10 @@ public class Catalogo {
     public void salva(DataOutputStream catalogo) throws Exception {
         DataOutputStream catalogTabela = null;
         try {
-            //for para guardar no catalogo principal nome da tabela e nome do arquivo que serão guardadas as info dessa tabela("tabela"+j)
+            /* Guarda no catalogo principal nome da tabela e nome do arquivo 
+             que serão guardadas as infos dessa tabela("tabela"+j) */
             for (int j = 0; j < nomeTabela.size(); j++) {
                 catalogo.writeUTF(nomeTabela.get(j));
-
             }
         } finally {
             if (catalogTabela != null) {
@@ -64,16 +62,16 @@ public class Catalogo {
         prox.setNome("proximo");
         prox.setTabela(atributos.get(0).getTabela());
         prox.setTipo("integer");
-        
+
         Atributo flag = new Atributo();
         flag.setChave(false);
         flag.setNome("flag");
         flag.setTabela(atributos.get(0).getTabela());
         flag.setTipo("boolean");
-        
-        atributos.add(1,prox);
-        atributos.add(2,flag);
-        
+
+        atributos.add(1, prox);
+        atributos.add(2, flag);
+
         dos.writeInt(atributos.size());
         for (int i = 0; i < atributos.size(); i++) {
             dos.writeUTF(atributos.get(i).getNome());
@@ -93,7 +91,6 @@ public class Catalogo {
         } catch (EOFException e) {
 
         }
-
     }
 
     public void verificaTabela(DataInputStream dis, String info) throws IOException {
@@ -103,7 +100,6 @@ public class Catalogo {
                 if (dis.readUTF().toLowerCase().equals(info.toLowerCase())) {
                     existe = true;
                 }
-
             }
 
         } catch (EOFException e) {
@@ -268,5 +264,4 @@ public class Catalogo {
             }
         }
     }
-
 }

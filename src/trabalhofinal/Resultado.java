@@ -3,15 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package excecoes;
+package trabalhofinal;
+
+import java.util.ArrayList;
 
 /**
  * @author Carlos Daniel Ogg, Fernando da Rós, João Manoel, 
  * Jonatha Nunes, Monique Moledo
  */
 
-public class StringInvalidaException extends RuntimeException{
-    public StringInvalidaException(String message){
-        super(message);
-    }
+public class Resultado {
+    
+     ArrayList<Long> pos;
+     ArrayList<String[]> registros;    
+     public Resultado(){
+         pos = new ArrayList<Long>();
+         registros = new ArrayList<String[]>();
+     }
 }

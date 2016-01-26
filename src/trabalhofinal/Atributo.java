@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package trabalhofinal;
 
-import java.io.DataOutputStream;
+//import java.io.DataOutputStream;
 
 /**
  * @author Carlos Daniel Ogg, Fernando da Rós, João Manoel, Jonatha Nunes,
  * Monique Moledo
  */
 public class Atributo {
-    
+
     private String tabela;
     private String nome;
     private String tipo;
